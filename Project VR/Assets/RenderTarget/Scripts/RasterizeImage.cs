@@ -20,8 +20,6 @@ public class RasterizeImage : MonoBehaviour
 
         //Setting up render texture
         renderTarget = new RenderTexture(targetTexture2D.width, targetTexture2D.height, 0);
-        RenderTexture.active = renderTarget;
-        Graphics.Blit(targetTexture2D, renderTarget);
 
         selfCamera.targetTexture = renderTarget;
     }
@@ -49,8 +47,6 @@ public class RasterizeImage : MonoBehaviour
     }
 
 
-
-
     /// <summary>
     /// Tries to look a texture2D asset to set as target. 
     /// If it can't find anything, it will create one and use that.
@@ -65,7 +61,7 @@ public class RasterizeImage : MonoBehaviour
                 targetTexture2D = new Texture2D(200, 200);
 
             ImageConversion.LoadImage(targetTexture2D, bytes);
-            if (targetTexture2D == null) throw new System.ArgumentException("Did not find a target image, will now create one");
+            if (targetTexture2D == null) throw new ArgumentException("Did not find a target image, will now create one");
             return;
         }
         catch (Exception e)

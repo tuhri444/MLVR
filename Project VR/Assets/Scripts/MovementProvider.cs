@@ -57,7 +57,7 @@ public class MovementProvider : LocomotionProvider
             }
             if(controller != null && controller.enableInputActions && controller.controllerNode == XRNode.RightHand)
             {
-                CheckForJump(controller.inputDevice);
+                //CheckForJump(controller.inputDevice);
             }
         }
     }
