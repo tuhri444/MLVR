@@ -2012,6 +2012,25 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1680342474 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6990266605476826265, guid: ad079ee03cbc7974eb6ef833a36db229,
+    type: 3}
+  m_PrefabInstance: {fileID: 6990266606323461731}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1680342475
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680342474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c960334ca5ef802429b4f2cb383b940c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controllers: []
 --- !u!1 &1681095826 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3655248004676330164, guid: 0cfbfdf021555cd46b4b96db3e0a32fa,
@@ -4578,7 +4597,7 @@ PrefabInstance:
     - target: {fileID: 6990266605476826265, guid: ad079ee03cbc7974eb6ef833a36db229,
         type: 3}
       propertyPath: m_Name
-      value: CastingProvider
+      value: Casting System
       objectReference: {fileID: 0}
     - target: {fileID: 6990266605476826271, guid: ad079ee03cbc7974eb6ef833a36db229,
         type: 3}

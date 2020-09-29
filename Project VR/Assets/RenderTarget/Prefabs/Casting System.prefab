@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6990266605476826264}
   - component: {fileID: 6990266605476826271}
   m_Layer: 0
-  m_Name: CastingProvider
+  m_Name: Casting System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46,8 +46,8 @@ MonoBehaviour:
   controllers:
   - {fileID: 0}
   - {fileID: 0}
-  brush: {fileID: 3534977221632896930, guid: e1de2b0436c69f047a808bc525b42ba2, type: 3}
   cam: {fileID: 0}
   spacing: 0.01
   drawingPrefab: {fileID: 4405480805838893594, guid: f6e67e82db680734bbd65cff79e7fc53,
     type: 3}
+  camObject: {fileID: 0}
