@@ -8,16 +8,17 @@ using UnityEngine.XR.Interaction.Toolkit;
 public class DrawingProvider : MonoBehaviour
 {
     public List<XRController> controllers = null;
-    public GameObject brush;
     public RasterizeImage cam;
     public float spacing;
     public GameObject drawingPrefab;
 
-
     private bool canDraw = false;
     private bool drawingMode = false;
 
+    public GameObject camObject;
     private GameObject drawing;
+    private LineRenderer line;
+    private int numberOfPoints = 0;
 
     void Update()
     {
@@ -43,14 +44,15 @@ public class DrawingProvider : MonoBehaviour
         {
             if (drawingMode && !value)
             { 
-                cam.SaveImage();
-                Destroy(drawing);
+                cam.SaveImage(drawing);                
                 canDraw = false;
+                numberOfPoints = 0;
                 Debug.Log("Stopping Drawing mode");
             }
             else if (!drawingMode && value)
             {
                 Debug.Log("Start Drawing mode");
+
                 drawing = Instantiate(drawingPrefab,transform.position,Quaternion.identity);
                 drawing.transform.parent = transform.parent;
                 canDraw = true;
@@ -62,7 +64,7 @@ public class DrawingProvider : MonoBehaviour
     }
     private void CheckToDraw(InputDevice device, Vector3 pos)
     {
-        if (device.TryGetFeatureValue(CommonUsages.triggerButton, out bool value))
+        if (device.TryGetFeatureValue(CommonUsages.triggerButton, out bool value) && drawingMode)
         {
             Draw(value, pos);
         }
@@ -72,11 +74,13 @@ public class DrawingProvider : MonoBehaviour
         if(drawSomething && canDraw)
         {
             Debug.Log("Drawing");
-            GameObject temp = Instantiate(brush, pos, Quaternion.identity);
-            temp.transform.parent = drawing.transform;
-            temp.layer = 14;
+            Vector3 tempPos = pos;
+            LineRenderer line = drawing.GetComponent<LineRenderer>();
+            line.positionCount++;
+            line.SetPosition(numberOfPoints, tempPos);
             canDraw = false;
             StartCoroutine(DrawResetTimer(spacing));
+            numberOfPoints++;
         }
     }
     private IEnumerator DrawResetTimer(float timeToWait)

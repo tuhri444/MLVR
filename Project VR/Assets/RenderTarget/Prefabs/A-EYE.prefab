@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3126370481399697681}
   - component: {fileID: 3126370481399697685}
-  - component: {fileID: 3126370481399697682}
   - component: {fileID: 3126370481399697683}
   - component: {fileID: 3126370481399697680}
+  - component: {fileID: 7878816913823006064}
   m_Layer: 0
   m_Name: A-EYE
   m_TagString: Untagged
@@ -77,14 +77,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &3126370481399697682
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3126370481399697774}
-  m_Enabled: 1
 --- !u!114 &3126370481399697683
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126,5 +118,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c996395cc2f9c7445966fa06c0f47a13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  renderTarget: {fileID: 8400000, guid: 94308c2deebecea49805281bc5914974, type: 2}
+  selfCamera: {fileID: 3126370481399697685}
+--- !u!114 &7878816913823006064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3126370481399697774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a38be663eeaedbf498de1d87af3e3daf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
