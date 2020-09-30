@@ -15,27 +15,18 @@ public class RasterizeImage : MonoBehaviour
     public Camera selfCamera;
     void Awake()
     {
-        targetTexture2D = new Texture2D(200, 200, TextureFormat.RGBA32, false);
+        HandleTargetRender();
+
         selfCamera.targetTexture = renderTarget;
-        //HandleTargetRender();
-    }
-    private void RenderPipelineManager_beginCameraRendering(ScriptableRenderContext context, Camera camera)
-    {
-        OnStartRender();
-    }
-    private void OnStartRender()
-    {
-        selfCamera.projectionMatrix = Matrix4x4.Ortho(-1, 1, -1, 1, 0.1f, 2);
+        selfCamera.fieldOfView = 150.0f;
     }
     void OnEnable()
     {
         RenderPipelineManager.endCameraRendering += RenderPipelineManager_endCameraRendering;
-        //RenderPipelineManager.beginCameraRendering += RenderPipelineManager_beginCameraRendering;
     }
     void OnDisable()
     {
         RenderPipelineManager.endCameraRendering -= RenderPipelineManager_endCameraRendering;
-        //RenderPipelineManager.beginCameraRendering -= RenderPipelineManager_beginCameraRendering;
     }
     private void RenderPipelineManager_endCameraRendering(ScriptableRenderContext context, Camera camera)
     {
@@ -60,7 +51,7 @@ public class RasterizeImage : MonoBehaviour
             byte[] bytes = File.ReadAllBytes(Application.dataPath + "/RenderTarget/target.png");
 
             if (targetTexture2D == null)
-                targetTexture2D = new Texture2D(200, 200);
+                targetTexture2D = new Texture2D(400, 400, TextureFormat.RGBA32, false);
 
             ImageConversion.LoadImage(targetTexture2D, bytes);
             if (targetTexture2D == null) throw new ArgumentException("Did not find a target image, will now create one");
@@ -68,7 +59,7 @@ public class RasterizeImage : MonoBehaviour
         }
         catch (Exception e)
         {
-            Texture2D temp = new Texture2D(200, 200, TextureFormat.ARGB32, true);
+            Texture2D temp = new Texture2D(400, 400, TextureFormat.RGBA32, false);
 
             if (!Directory.Exists(Application.dataPath + "/RenderTarget/"))
                 Directory.CreateDirectory(Application.dataPath + "/RenderTarget/");
@@ -86,7 +77,7 @@ public class RasterizeImage : MonoBehaviour
     private void SaveTargetImage()
     {
         RenderTexture.active = renderTarget;
-        targetTexture2D.ReadPixels(new Rect(0, 0, 200, 200), 0, 0, false);
+        targetTexture2D.ReadPixels(new Rect(0, 0, renderTarget.width, renderTarget.height), 0, 0, false);
         targetTexture2D.Apply();
         RenderTexture.active = null;
 
