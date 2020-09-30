@@ -92,6 +92,7 @@ namespace VRG
         /// <param name="controllerTransform">Transform of the controller.</param>
         private void Drawing(Transform controllerTransform)
         {
+            if (m_StrokeObject == null) return;
             Debug.Log("Drawing");
             Vector3 tempPos = controllerTransform.position;
             LineRenderer line = m_StrokeObject.GetComponent<LineRenderer>();
