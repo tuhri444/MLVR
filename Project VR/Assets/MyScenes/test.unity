@@ -2120,6 +2120,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3126370481399697680, guid: b7c72799a7cf1734f9e39265d9bbc9be,
+        type: 3}
+      propertyPath: m_RenderTarget
+      value: 
+      objectReference: {fileID: 8400000, guid: 94308c2deebecea49805281bc5914974, type: 2}
     - target: {fileID: 3126370481399697681, guid: b7c72799a7cf1734f9e39265d9bbc9be,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5354,6 +5359,16 @@ PrefabInstance:
       propertyPath: m_Spacing
       value: 0.01
       objectReference: {fileID: 0}
+    - target: {fileID: 5340906254957881820, guid: ad079ee03cbc7974eb6ef833a36db229,
+        type: 3}
+      propertyPath: m_InputMethodDrawing
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5340906254957881820, guid: ad079ee03cbc7974eb6ef833a36db229,
+        type: 3}
+      propertyPath: m_InputMethodDrawingMode
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 6990266605476826264, guid: ad079ee03cbc7974eb6ef833a36db229,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5466,6 +5481,11 @@ PrefabInstance:
     - target: {fileID: 6990266605476826271, guid: ad079ee03cbc7974eb6ef833a36db229,
         type: 3}
       propertyPath: m_Cam
+      value: 
+      objectReference: {fileID: 1341661938}
+    - target: {fileID: 6990266605476826271, guid: ad079ee03cbc7974eb6ef833a36db229,
+        type: 3}
+      propertyPath: m_CameraScript
       value: 
       objectReference: {fileID: 1341661938}
     m_RemovedComponents: []

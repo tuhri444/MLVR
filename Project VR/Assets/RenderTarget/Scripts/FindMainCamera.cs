@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class FindMainCamera : MonoBehaviour
 {
-    [SerializeField] private float m_Offset;
+    [SerializeField]
+    [Tooltip("Offset in the opposite direction of the main camera forward.")]
+    float m_Offset;
     void Start()
     {
         transform.parent = Camera.main.transform;

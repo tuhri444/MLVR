@@ -6,89 +6,119 @@ using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-public class RasterizeImage : MonoBehaviour
+namespace VRG
 {
-    private Texture2D targetTexture2D;
-    public RenderTexture renderTarget;
-    private GameObject drawing;
-    private bool saveImage;
-    public Camera selfCamera;
-    void Awake()
+    public class RasterizeImage : MonoBehaviour
     {
-        HandleTargetRender();
+        /// <summary>
+        /// Render texture used to read drawing.
+        /// </summary>
+        [SerializeField]
+        [Tooltip("Render texture used to read drawing.")]
+        RenderTexture m_RenderTarget;
 
-        selfCamera.targetTexture = renderTarget;
-        selfCamera.fieldOfView = 150.0f;
-    }
-    void OnEnable()
-    {
-        RenderPipelineManager.endCameraRendering += RenderPipelineManager_endCameraRendering;
-    }
-    void OnDisable()
-    {
-        RenderPipelineManager.endCameraRendering -= RenderPipelineManager_endCameraRendering;
-    }
-    private void RenderPipelineManager_endCameraRendering(ScriptableRenderContext context, Camera camera)
-    {
-        OnPostRender();
-    }
-    private void OnPostRender()
-    {
-        if (saveImage)
+        /// <summary>
+        /// The Texture that will be used to read the pixels of the render texture onto.
+        /// </summary>
+        private Texture2D m_TargetTexture2D;
+        /// <summary>
+        /// Current Drawing object that will be deleted after rasterization. 
+        /// </summary>
+        private GameObject m_Drawing;
+        /// <summary>
+        /// The boolean used to activate the saving process of the image.
+        /// </summary>
+        private bool m_SaveImage;
+        /// <summary>
+        /// A reference to this object's own camera component.
+        /// </summary>
+        private Camera m_CameraSelf;
+        void Awake()
         {
-            saveImage = false;
+            HandleTargetRender();
+            m_CameraSelf = GetComponent<Camera>();
+            m_CameraSelf.targetTexture = m_RenderTarget;
+        }
+        void OnEnable()
+        {
+            RenderPipelineManager.endCameraRendering += RenderPipelineManager_endCameraRendering;
+        }
+        void OnDisable()
+        {
+            RenderPipelineManager.endCameraRendering -= RenderPipelineManager_endCameraRendering;
+        }
+        /// <summary>
+        /// Calls the OnPostRender because Unity forgot to run this specific one. :(
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="camera"></param>
+        private void RenderPipelineManager_endCameraRendering(ScriptableRenderContext context, Camera camera)
+        {
+            OnPostRender();
+        }
+        /// <summary>
+        /// Function that is run after rendering the camera in use.
+        /// </summary>
+        private void OnPostRender()
+        {
+            if (!m_SaveImage) return;
+            m_SaveImage = false;
             SaveTargetImage();
         }
-    }
-    /// <summary>
-    /// Tries to look a texture2D asset to set as target. 
-    /// If it can't find anything, it will create one and use that.
-    /// </summary>
-    private void HandleTargetRender()
-    {
-        try
+        /// <summary>
+        /// Tries to look a texture2D asset to set as target. 
+        /// If it can't find anything, it will create one and use that.
+        /// </summary>
+        private void HandleTargetRender()
         {
-            byte[] bytes = File.ReadAllBytes(Application.dataPath + "/RenderTarget/target.png");
+            try
+            {
+                byte[] bytes = File.ReadAllBytes(Application.dataPath + "/RenderTarget/target.png");
 
-            if (targetTexture2D == null)
-                targetTexture2D = new Texture2D(400, 400, TextureFormat.RGBA32, false);
+                if (m_TargetTexture2D == null)
+                    m_TargetTexture2D = new Texture2D(400, 400, TextureFormat.RGBA32, false);
 
-            ImageConversion.LoadImage(targetTexture2D, bytes);
-            if (targetTexture2D == null) throw new ArgumentException("Did not find a target image, will now create one");
-            return;
+                ImageConversion.LoadImage(m_TargetTexture2D, bytes);
+                if (m_TargetTexture2D == null) throw new ArgumentException("Did not find a target image, will now create one");
+                return;
+            }
+            catch (Exception e)
+            {
+                Texture2D temp = new Texture2D(400, 400, TextureFormat.RGBA32, false);
+
+                if (!Directory.Exists(Application.dataPath + "/RenderTarget/"))
+                    Directory.CreateDirectory(Application.dataPath + "/RenderTarget/");
+
+                byte[] bytes = temp.EncodeToPNG();
+                File.WriteAllBytes(Application.dataPath + "/RenderTarget/target.png", bytes);
+                m_TargetTexture2D = temp;
+                UnityEditor.AssetDatabase.Refresh();
+                Debug.Log("Succesfully made the target image file, have fun with it!");
+            }
         }
-        catch (Exception e)
+        /// <summary>
+        /// Will save all the pixels from the render target onto a texture2D (png file (inside of the asset/rendertarget folder))
+        /// </summary>
+        private void SaveTargetImage()
         {
-            Texture2D temp = new Texture2D(400, 400, TextureFormat.RGBA32, false);
+            RenderTexture.active = m_RenderTarget;
+            m_TargetTexture2D.ReadPixels(new Rect(0, 0, m_RenderTarget.width, m_RenderTarget.height), 0, 0, false);
+            m_TargetTexture2D.Apply();
+            RenderTexture.active = null;
 
-            if (!Directory.Exists(Application.dataPath + "/RenderTarget/"))
-                Directory.CreateDirectory(Application.dataPath + "/RenderTarget/");
-
-            byte[] bytes = temp.EncodeToPNG();
+            byte[] bytes = m_TargetTexture2D.EncodeToPNG();
             File.WriteAllBytes(Application.dataPath + "/RenderTarget/target.png", bytes);
-            targetTexture2D = temp;
             UnityEditor.AssetDatabase.Refresh();
-            Debug.Log("Succesfully made the target image file, have fun with it!");
+            Destroy(m_Drawing);
         }
-    }
-    /// <summary>
-    /// Will save all the pixels from the render target onto a texture2D (png file (inside of the asset/rendertarget folder))
-    /// </summary>
-    private void SaveTargetImage()
-    {
-        RenderTexture.active = renderTarget;
-        targetTexture2D.ReadPixels(new Rect(0, 0, renderTarget.width, renderTarget.height), 0, 0, false);
-        targetTexture2D.Apply();
-        RenderTexture.active = null;
-
-        byte[] bytes = targetTexture2D.EncodeToPNG();
-        File.WriteAllBytes(Application.dataPath + "/RenderTarget/target.png", bytes);
-        UnityEditor.AssetDatabase.Refresh();
-        Destroy(drawing);
-    }
-    public void SaveImage(GameObject drawing)
-    {
-        this.drawing = drawing;
-        saveImage = true;
+        /// <summary>
+        /// Activation function for saving image.
+        /// </summary>
+        /// <param name="drawing">GameObject containing the drawing.</param>
+        public void SaveImage(GameObject drawing)
+        {
+            m_Drawing = drawing;
+            m_SaveImage = true;
+        }
     }
 }
