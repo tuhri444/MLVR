@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6990266605476826264}
   - component: {fileID: 5340906254957881820}
   - component: {fileID: 6990266605476826271}
+  - component: {fileID: 2733772217394783564}
   m_Layer: 0
   m_Name: Casting System
   m_TagString: Untagged
@@ -46,6 +47,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_LeftController: {fileID: 0}
   m_RightController: {fileID: 0}
+  m_InputMethodDrawing: 0
+  m_InputMethodDrawingMode: 0
+  m_Spacing: 0
 --- !u!114 &6990266605476826271
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58,11 +62,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 621b5c39f9b702842ae92cd8653c7dd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controllers:
-  - {fileID: 0}
-  - {fileID: 0}
-  cam: {fileID: 0}
-  spacing: 0.01
-  drawingPrefab: {fileID: 4405480805838893594, guid: f6e67e82db680734bbd65cff79e7fc53,
-    type: 3}
-  camObject: {fileID: 0}
+  m_CameraScript: {fileID: 0}
+  m_DrawingPrefab: {fileID: 0}
+  m_StrokePrefab: {fileID: 0}
+  m_GestureAnalyzer: {fileID: 2733772217394783564}
+--- !u!114 &2733772217394783564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6990266605476826265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca36cfef4ad5d4348b70d335901da899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UIText: {fileID: 0}
