@@ -43,7 +43,6 @@ public class GestureAnalyzer : MonoBehaviour
         {
             Gesture candidate = new Gesture(points.ToArray());
             string gestureClass = PointCloudRecognizerPlus.Classify(candidate, m_TrainingSet, m_MarginOfError);
-            Debug.Log("Recognized as: " + gestureClass);
             if (m_UIText != null)
                 m_UIText.text = "Recognized as: " + gestureClass;
         }

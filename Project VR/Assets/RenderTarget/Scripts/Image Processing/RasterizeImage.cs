@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Rendering;
 
 namespace VRG
@@ -16,6 +17,16 @@ namespace VRG
         [SerializeField]
         [Tooltip("Render texture used to read drawing.")]
         RenderTexture m_RenderTarget;
+
+        [SerializeField] private bool DrawCustomImages;
+        [SerializeField] private string NameOfFolder;
+        private int num;
+
+        public delegate void ProcessTexture(Texture2D texture);
+        /// <summary>
+        /// This event will be invoked when the feed of the camera has been rasterized onto a texture2D.
+        /// </summary>
+        public static event ProcessTexture OnRasterize; 
 
         /// <summary>
         /// The Texture that will be used to read the pixels of the render texture onto.
@@ -76,7 +87,7 @@ namespace VRG
                 byte[] bytes = File.ReadAllBytes(Application.dataPath + "/RenderTarget/target.png");
 
                 if (m_TargetTexture2D == null)
-                    m_TargetTexture2D = new Texture2D(400, 400, TextureFormat.RGBA32, false);
+                    m_TargetTexture2D = new Texture2D(64, 64, TextureFormat.RGBA32, false);
 
                 ImageConversion.LoadImage(m_TargetTexture2D, bytes);
                 if (m_TargetTexture2D == null) throw new ArgumentException("Did not find a target image, will now create one");
@@ -84,7 +95,7 @@ namespace VRG
             }
             catch (Exception e)
             {
-                Texture2D temp = new Texture2D(400, 400, TextureFormat.RGBA32, false);
+                Texture2D temp = new Texture2D(64, 64, TextureFormat.RGBA32, false);
 
                 if (!Directory.Exists(Application.dataPath + "/RenderTarget/"))
                     Directory.CreateDirectory(Application.dataPath + "/RenderTarget/");
@@ -102,13 +113,19 @@ namespace VRG
         private void SaveTargetImage()
         {
             RenderTexture.active = m_RenderTarget;
-            m_TargetTexture2D.ReadPixels(new Rect(0, 0, m_RenderTarget.width, m_RenderTarget.height), 0, 0, false);
+            Rect temp = new Rect(m_RenderTarget.width*0.25f, m_RenderTarget.height * 0.25f, m_RenderTarget.width*0.5f, m_RenderTarget.height * 0.5f);
+            m_TargetTexture2D.ReadPixels(temp, 0, 0, false);
             m_TargetTexture2D.Apply();
             RenderTexture.active = null;
-
-            byte[] bytes = m_TargetTexture2D.EncodeToPNG();
-            File.WriteAllBytes(Application.dataPath + "/RenderTarget/target.png", bytes);
-            UnityEditor.AssetDatabase.Refresh();
+            //If you're saving the image uncomment this.
+            if (DrawCustomImages)
+            {
+                byte[] bytes = m_TargetTexture2D.EncodeToPNG();
+                File.WriteAllBytes(Application.dataPath + "/RenderTarget/NewShape/" + NameOfFolder+ "/image_shape_" + num+".png", bytes);
+                UnityEditor.AssetDatabase.Refresh();
+                num++;
+            }
+            OnRasterize?.Invoke(m_TargetTexture2D);
             Destroy(m_Drawing);
         }
         /// <summary>
