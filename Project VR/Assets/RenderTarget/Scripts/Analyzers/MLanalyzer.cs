@@ -1,4 +1,5 @@
-﻿using Unity.Barracuda;
+﻿using System.CodeDom.Compiler;
+using Unity.Barracuda;
 using UnityEngine;
 using UnityEngine.UI;
 using VRG;
@@ -40,11 +41,14 @@ public class MLanalyzer : MonoBehaviour
         var prediction = engine.PeekOutput("Identity");
         float[] predictionValues = prediction.AsFloats();
 
-
+        int temp = 0;
+        Debug.Log("----------------------");
         foreach (float f in predictionValues)
         {
-            Debug.Log(f);
+            Debug.Log(m_ClassNames[temp] +": " + f*100.0f);
+            temp++;
         }
+        Debug.Log("----------------------");
 
         float highestValue = 0;
         int index = 0;

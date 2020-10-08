@@ -2324,7 +2324,7 @@ PrefabInstance:
     - target: {fileID: 3126370481399697680, guid: b7c72799a7cf1734f9e39265d9bbc9be,
         type: 3}
       propertyPath: NameOfFolder
-      value: spiral
+      value: Thunder
       objectReference: {fileID: 0}
     - target: {fileID: 3126370481399697681, guid: b7c72799a7cf1734f9e39265d9bbc9be,
         type: 3}
@@ -5892,13 +5892,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e673c1114a2ee414690b14328cb1d9b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ModelAsset: {fileID: 5022602860645237092, guid: 168c7044493ee084ea2bfd500ab01d3d,
+  m_ModelAsset: {fileID: 5022602860645237092, guid: e0fcce834ad06104d81b12011b5a1b60,
     type: 3}
   m_UIText: {fileID: 1848894184}
   m_ClassNames:
   - Zero
   - Slash
   - Cross
+  - Thunder
 --- !u!4 &7017901617525917233
 Transform:
   m_ObjectHideFlags: 0
