@@ -6,6 +6,8 @@ using VRG;
 
 public class MLanalyzer : MonoBehaviour
 {
+    [SerializeField] private GameObject m_FireSpell;
+
     [SerializeField]
     [Tooltip("Machine learning model used to identify images.")]
     private NNModel m_ModelAsset;
@@ -18,6 +20,13 @@ public class MLanalyzer : MonoBehaviour
     private Model m_RuntimeModel;
 
     [SerializeField] string[] m_ClassNames;
+
+    public delegate void RecognizeImage(int spell); 
+    /// <summary>
+    /// Will be invoked when an symbol was recognized.
+    /// </summary>
+    public static event RecognizeImage OnSymbolRecognized;
+    
 
     void Start()
     {
@@ -63,8 +72,11 @@ public class MLanalyzer : MonoBehaviour
             index += 1;
         }
 
-        if (highestValue > 0.75f)
+        if (highestValue > 0.85f)
+        {
+            OnSymbolRecognized?.Invoke(highestValueIndex);
             m_UIText.text = "Recognized: " + m_ClassNames[highestValueIndex];
+        }
         else
             m_UIText.text = "Unable to Recognize";
     }

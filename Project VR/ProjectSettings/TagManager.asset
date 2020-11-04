@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ignite
+  - Spell
   layers:
   - Default
   - TransparentFX
@@ -21,7 +22,7 @@ TagManager:
   - Player
   - Interactible
   - Board
-  - 
+  - AntiPlayer
   - 
   - 
   - 

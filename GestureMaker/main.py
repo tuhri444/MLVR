@@ -9,7 +9,7 @@ import tf2onnx.optimizer as optimizer
 import tf2onnx.utils as utils
 from tf2onnx import tf_loader
 from tensorflow import keras
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 
 def ConvertToONNX():
     graph, ins, outs = tf2onnx.tf_loader.from_saved_model("model", [], [])

@@ -70,7 +70,8 @@ namespace VRG
         {
             Camera cam = m_CameraScript.GetComponent<Camera>();
             //m_GestureAnalyzer.RecognizeGesture(GestureAnalyzer.ConvertStrokeToPointCloud(m_DrawingObject,cam));
-            m_CameraScript.SaveImage(m_DrawingObject);
+            if(m_StrokeObject.GetComponent<LineRenderer>().positionCount >= 1)
+                m_CameraScript.SaveImage(m_DrawingObject);
             Debug.Log("Stopping drawing mode");
         }
         /// <summary>
